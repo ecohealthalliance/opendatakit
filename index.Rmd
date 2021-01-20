@@ -5,6 +5,7 @@ author: "Ernest Guevara"
 date: '`r Sys.Date()`'
 output:
   xaringan::moon_reader:
+    seal: false
     lib_dir: libs
     css: xaringan-themer.css
     nature:
@@ -30,3 +31,8 @@ style_mono_light(
 )
 ```
 
+# Open Data Kit
+
+### Ernest Guevarra
+
+---
