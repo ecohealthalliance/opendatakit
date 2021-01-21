@@ -5,7 +5,6 @@ author: "Ernest Guevara"
 date: '`r Sys.Date()`'
 output:
   xaringan::moon_reader:
-    seal: false
     lib_dir: libs
     css: xaringan-themer.css
     nature:
@@ -25,14 +24,9 @@ style_mono_light(
   title_slide_background_image = "images/ecohealth_slide_background.png",
   title_slide_background_size = "cover",
   header_font_google = google_font("Fira Sans"),
-  text_font_google   = google_font("Fira Sans Condensed"),
-  code_font_google   = google_font("Fira Mono"),
-  text_slide_number_font_size = "0.5em"
+  text_font_google = google_font("Fira Sans Condensed"),
+  code_font_google = google_font("Fira Mono"),
+  text_slide_number_font_size = "1em"
 )
 ```
 
-# Open Data Kit
-
-### Ernest Guevarra
-
----
