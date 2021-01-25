@@ -1,5 +1,5 @@
 ---
-title: "ODK"
+title: "Open Data Kit"
 subtitle: ""  
 author: "Ernest Guevarra"
 date: '26 January 2021'
@@ -23,7 +23,7 @@ library(xaringanthemer)
 style_mono_light(
   base_color = "#509935",
   base_font_size = "25px",
-  title_slide_background_color = "#EDF4EA",
+  title_slide_background_color = "#FFFFFF",
   title_slide_background_image = "images/ecohealth_title_background_4by3.png",
   title_slide_background_size = "contain",
   title_slide_text_color = "#509935",
@@ -37,27 +37,66 @@ style_mono_light(
 
 # Outline
 
-* Brief overview of ODK development
+* Brief overview of **Open Data Kit** development
 
-* ODK within EHA
+* **Open Data Kit** within **EcoHealth Alliance**
 
-* Demonstration of ODK Central
+* **ODK Central** demonstration
+
+---
+
+background-image: url()
+background-color: #FFFFFF
+
+## ODK development
+
+![](images/odk_history.png)
+
+<!--- <img src="images/odk_history.png" width="550px" align="center" /> --->
 
 ---
 
-# History of ODK development
+background-image: url()
+background-color: #FFFFFF
 
-[graphic on ]
+## ODK within EcoHealth Alliance
 
-![](https://opendatakit.org/assets/images/odk-logo.png)
-![KoBo](http://www.bayramkotan.com/wp-content/uploads/2018/01/kobo_logo_dark1.2-1024x224.png)
----
-
-![SurveyCTO](https://www.surveycto.com/wp-content/uploads/2018/04/SurveyCTO-Logo-CMYK.png)
-
-![CommCare](https://dimagi-a3b1.kxcdn.com/uploads/default/original/1X/0527a9441ad810c2db78b79dd044d93d0ea49d15.png)
-
-![](https://ona.io/resources/img/coloured-logo.png)
+![](images/odk_eha.png)
 
 ---
+
+## ODK Central
+
+* **ODK Central** is the **ODK server**. 
+
+* It manages user accounts and permissions, stores form definitions, and allows data collection clients like **ODK Collect** to connect to it for form download and submission upload
+
+* Newest iteration of the **ODK server**
+
+* New features and functionalities in the server software itself and via its **REST**, **OpenRosa**, and **OData** APIs
+
+---
+
+## ODK Central demonstration
+
+For this demonstration, I have created a feedback form for my talk today which we will use to demonstrate the following:
+
+* How to deploy a form in **ODK Central**
+
+* How to submit a form to **ODK Central**
+
+* How to monitor submission of forms to **ODK Central**
+
+* How to create basic visualisation of data from forms submitted to **ODK Central**
+
+---
+
+## What you need
+
+* A data entry device ideally a mobile device running on **Android** (smartphone or tablet), or an **iOS** device, or a computer with a web browser
+
+* An internet connection
+
+* If using an **Android** device, please download **ODK Collect** from the **Google Play Store**. If you do not want to download yet another app or if you are using **iOS** device or a computer, nothing to download ahead of time. You will enter data into the forms and submit via your web browser
+
 
