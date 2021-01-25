@@ -1,8 +1,8 @@
 ---
-title: "Open Data Kit"
+title: "ODK"
 subtitle: ""  
-author: "Ernest Guevara"
-date: '`r Sys.Date()`'
+author: "Ernest Guevarra"
+date: '26 January 2021'
 output:
   xaringan::moon_reader:
     lib_dir: libs
@@ -11,6 +11,7 @@ output:
       highlightStyle: github
       highlightLines: true
       countIncrementalSlides: false
+      titleSlideClass: ["right", "bottom"]
 ---
 
 ```{r setup, include=FALSE}
@@ -21,12 +22,42 @@ options(htmltools.dir.version = FALSE)
 library(xaringanthemer)
 style_mono_light(
   base_color = "#509935",
-  title_slide_background_image = "images/ecohealth_slide_background.png",
-  title_slide_background_size = "cover",
+  base_font_size = "25px",
+  title_slide_background_color = "#EDF4EA",
+  title_slide_background_image = "images/ecohealth_title_background_4by3.png",
+  title_slide_background_size = "contain",
+  title_slide_text_color = "#509935",
+  background_image = "images/ecohealth_slide_background_4by3.png",
   header_font_google = google_font("Fira Sans"),
   text_font_google = google_font("Fira Sans Condensed"),
   code_font_google = google_font("Fira Mono"),
   text_slide_number_font_size = "1em"
 )
 ```
+
+# Outline
+
+* Brief overview of ODK development
+
+* ODK within EHA
+
+* Demonstration of ODK Central
+
+---
+
+# History of ODK development
+
+[graphic on ]
+
+![](https://opendatakit.org/assets/images/odk-logo.png)
+![KoBo](http://www.bayramkotan.com/wp-content/uploads/2018/01/kobo_logo_dark1.2-1024x224.png)
+---
+
+![SurveyCTO](https://www.surveycto.com/wp-content/uploads/2018/04/SurveyCTO-Logo-CMYK.png)
+
+![CommCare](https://dimagi-a3b1.kxcdn.com/uploads/default/original/1X/0527a9441ad810c2db78b79dd044d93d0ea49d15.png)
+
+![](https://ona.io/resources/img/coloured-logo.png)
+
+---
 

@@ -33,7 +33,7 @@
   --header-font-is-google: 1;
   --code-font-family: 'Fira Mono';
   --code-font-is-google: 1;
-  --base-font-size: 20px;
+  --base-font-size: 25px;
   --text-font-size: 1rem;
   --code-font-size: 0.9rem;
   --code-inline-font-size: 1em;
@@ -51,8 +51,8 @@
   --inverse-text-color: #EDF4EA;
   --inverse-background-color: #509935;
   --inverse-header-color: #EDF4EA;
-  --title-slide-background-color: #509935;
-  --title-slide-text-color: #EDF4EA;
+  --title-slide-background-color: #EDF4EA;
+  --title-slide-text-color: #509935;
   --header-background-color: #509935;
   --header-background-text-color: #EDF4EA;
   --base: #509935;
@@ -77,6 +77,8 @@ h1, h2, h3 {
 .remark-slide-content {
   background-color: var(--background-color);
   font-size: 1rem;
+  background-image: url(images/ecohealth_slide_background_4by3.png);
+  background-size: cover;
   padding: 16px 64px 16px 64px;
   width: 100%;
   height: 100%;
@@ -132,8 +134,8 @@ a, a > code {
 }
 .title-slide {
   background-color: var(--title-slide-background-color);
-  background-image: url("images/ecohealth_slide_background.png");
-  background-size: cover;
+  background-image: url("images/ecohealth_title_background_4by3.png");
+  background-size: contain;
 }
 .title-slide .remark-slide-number {
   display: none;
