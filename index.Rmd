@@ -99,4 +99,3 @@ For this demonstration, I have created a feedback form for my talk today which w
 
 * If you do not want to download yet another app or if you are using **iOS** device or a computer, nothing to download ahead of time. You will enter data into the forms and submit via your web browser
 
-
