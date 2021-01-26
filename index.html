@@ -5,6 +5,8 @@
     <meta charset="utf-8" />
     <meta name="author" content="Ernest Guevarra" />
     <meta name="date" content="2021-01-26" />
+    <script src="libs/kePrint/kePrint.js"></script>
+    <link href="libs/lightable/lightable.css" rel="stylesheet" />
     <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
   </head>
   <body>
@@ -21,6 +23,18 @@ class: right, bottom, title-slide
 
 
 
+
+## What you need for the demonstration
+
+* A data entry device ideally a mobile device running on **Android** (smartphone or tablet), or an **iOS** device, or a computer with a web browser
+
+* An internet connection
+
+* If using an **Android** device, please download **ODK Collect** from the **Google Play Store**. 
+
+* If you do not want to download yet another app or if you are using **iOS** device or a computer, nothing to download ahead of time. You will enter data into the forms and submit via your web browser
+
+---
 
 # Outline
 
@@ -68,23 +82,406 @@ For this demonstration, I have created a feedback form for my talk today which w
 
 * How to deploy a form in **ODK Central**
 
-* How to submit a form to **ODK Central**
+* How to submit a form to **ODK Central** (collecting data)
 
 * How to monitor submission of forms to **ODK Central**
 
-* How to create basic visualisation of data from forms submitted to **ODK Central**
+* How to get **ODK Central** data into R
 
 ---
 
-## What you need
+## Setting up your project in ODK Central
 
-* A data entry device ideally a mobile device running on **Android** (smartphone or tablet), or an **iOS** device, or a computer with a web browser
+* Create a web user account
 
-* An internet connection
+* Create a project and choose web users to include in project
 
-* If using an **Android** device, please download **ODK Collect** from the **Google Play Store**. 
+* Web users within a project can have varying permissions levels (admin, read, submit)
 
-* If you do not want to download yet another app or if you are using **iOS** device or a computer, nothing to download ahead of time. You will enter data into the forms and submit via your web browser
+---
+
+## Deploy form in ODK Central
+
+* Create a form in XLSForm standard
+
+    * Demonstration form at [GithHub repo](https://github.com/ecohealthalliance/opendatakit/forms/feedback_m3_form.xlsx) and on [Google Sheets](https://docs.google.com/spreadsheets/d/1T_99G7_3pookXGro_iw1wERF5SX2eUdJRzo2TvkgSBM/edit?usp=sharing)
+
+* Publish form into **ODK Central**
+
+---
+
+## Submit forms to ODK Central
+
+* Create *app users* on **ODK Central**
+
+* Connect *app users* to **ODK Central**
+
+* *App users* click on *Get Blank Form* on **ODK Collect**
+
+* *App users* click on *Fill Blank Form* and select form to fill on **ODK Collect**
+
+---
+
+## Connect to ODK Central via R
+
+
+```r
+## Install ruODK from GitHub
+remotes::install_github("ropensci/ruODK")
+
+## Setup connection with ODK Central
+ruODK::ru_setup(
+  svc = "https://odk-beta.eha.io/v1/projects/1/forms/pizza.svc",
+  un = "YOUR_USERNAME_HERE",
+  pw = "YOUR_PASSWORD_HERE",
+  tz = "GMT",
+  odkc_version = "1.1.2"
+)
+```
+
+
+
+---
+
+## Get list of projects
+
+
+```r
+## Get list of projects
+project_list()
+```
+
+```
+## # A tibble: 1 x 8
+##      id name  forms app_users created_at          updated_at         
+##   &lt;int&gt; &lt;chr&gt; &lt;int&gt;     &lt;int&gt; &lt;dttm&gt;              &lt;dttm&gt;             
+## 1     1 ODK …     1        17 2021-01-22 20:52:20 NA                 
+## # … with 2 more variables: last_submission &lt;dttm&gt;, archived &lt;lgl&gt;
+```
+
+&lt;table class="table table-condensed" style="font-size: 16px; font-family: Arial Narrow; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; id &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; name &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; forms &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; app_users &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; created_at &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; updated_at &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; last_submission &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; archived &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; ODK Demonstration &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 17 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2021-01-22 20:52:20 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2021-01-26 10:45:41 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; FALSE &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+
+## Get list of forms
+
+
+```r
+form_list(pid = 1)
+```
+
+```
+## # A tibble: 1 x 11
+##   name  fid   version state submissions created_at          created_by_id
+##   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;       &lt;dttm&gt;                      &lt;int&gt;
+## 1 Pizz… pizza 202101… open  3           2021-01-26 10:40:47             8
+## # … with 4 more variables: created_by &lt;chr&gt;, updated_at &lt;dttm&gt;,
+## #   last_submission &lt;dttm&gt;, hash &lt;chr&gt;
+```
+
+&lt;table class="table table-condensed" style="font-size: 10px; font-family: Arial Narrow; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; name &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; fid &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; version &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; state &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; submissions &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; created_at &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; created_by_id &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; created_by &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; updated_at &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; last_submission &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; hash &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; Pizza toppings &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; pizza &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2021012601 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; open &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2021-01-26 10:40:47 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 8 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Ernest Guevarra &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2021-01-26 10:43:54 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2021-01-26 10:45:41 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 6b264d46ada72163860cbf872822dc2e &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+
+## Get form schema
+
+
+```r
+form_schema(odkc_version = "1.1.2")
+```
+
+```
+## # A tibble: 10 x 5
+##    path             name       type      binary ruodk_name      
+##    &lt;chr&gt;            &lt;chr&gt;      &lt;chr&gt;     &lt;lgl&gt;  &lt;chr&gt;           
+##  1 /start           start      dateTime  NA     start           
+##  2 /end             end        dateTime  NA     end             
+##  3 /today           today      date      NA     today           
+##  4 /pizza1          pizza1     string    NA     pizza1          
+##  5 /pizza2          pizza2     string    NA     pizza2          
+##  6 /pizza3          pizza3     string    NA     pizza3          
+##  7 /closing         closing    string    NA     closing         
+##  8 /meta            meta       structure NA     meta            
+##  9 /meta/audit      audit      binary    TRUE   meta_audit      
+## 10 /meta/instanceID instanceID string    NA     meta_instance_id
+```
+
+---
+
+## Get form schema (stylised output)
+
+&lt;table class="table table-condensed" style="font-size: 20px; font-family: Arial Narrow; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; path &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; name &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; type &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; binary &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; ruodk_name &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; /start &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; start &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; dateTime &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; start &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; /end &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; end &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; dateTime &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; end &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; /today &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; today &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; date &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; today &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; /pizza1 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; pizza1 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; string &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; pizza1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; /pizza2 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; pizza2 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; string &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; pizza2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; /pizza3 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; pizza3 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; string &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; pizza3 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+
+## List submissions for one form
+
+
+```r
+submission_list()
+```
+
+```
+## ℹ https://odk-beta.eha.io/v1/projects/1/forms/pizza/submissions
+```
+
+```
+## # A tibble: 3 x 5
+##   instance_id    submitter_id device_id  created_at          updated_at         
+##   &lt;chr&gt;                 &lt;int&gt; &lt;chr&gt;      &lt;dttm&gt;              &lt;dttm&gt;             
+## 1 uuid:d14d2e96…           28 collect:O… 2021-01-26 10:45:41 NA                 
+## 2 uuid:46ec1773…           28 collect:O… 2021-01-26 10:45:14 NA                 
+## 3 uuid:1dab3449…           28 collect:O… 2021-01-26 10:44:59 NA
+```
+
+---
+
+## List submissions for one form (stylised output)
+
+
+```
+## ℹ https://odk-beta.eha.io/v1/projects/1/forms/pizza/submissions
+```
+
+&lt;table class="table table-condensed" style="font-size: 14px; font-family: Arial Narrow; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; instance_id &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; submitter_id &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; device_id &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; created_at &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; updated_at &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; uuid:d14d2e96-c5b8-48ac-83cb-e956bf39107d &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; collect:OzBJWquB0Hebm3g5 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2021-01-26 10:45:41 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; uuid:46ec1773-d9b5-4355-8add-744b942f0cc1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; collect:OzBJWquB0Hebm3g5 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2021-01-26 10:45:14 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; uuid:1dab3449-6bb9-4c78-bbb5-a729115b72c1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 28 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; collect:OzBJWquB0Hebm3g5 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2021-01-26 10:44:59 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+
+## Get data from all submissions
+
+
+```r
+odata_submission_get(odkc_version = "1.1.2")
+```
+
+```
+## # A tibble: 3 x 14
+##   id    start               end                 today               pizza1
+##   &lt;chr&gt; &lt;dttm&gt;              &lt;dttm&gt;              &lt;dttm&gt;              &lt;chr&gt; 
+## 1 uuid… 2021-01-26 10:45:27 2021-01-26 10:45:42 2021-01-26 00:00:00 1     
+## 2 uuid… 2021-01-26 10:45:03 2021-01-26 10:45:14 2021-01-26 00:00:00 2     
+## 3 uuid… 2021-01-26 10:44:42 2021-01-26 10:44:59 2021-01-26 00:00:00 1     
+## # … with 9 more variables: pizza2 &lt;chr&gt;, system_submission_date &lt;chr&gt;,
+## #   system_submitter_id &lt;chr&gt;, system_submitter_name &lt;chr&gt;,
+## #   system_attachments_present &lt;int&gt;, system_attachments_expected &lt;int&gt;,
+## #   meta_audit &lt;chr&gt;, meta_instance_id &lt;chr&gt;, odata_context &lt;chr&gt;
+```
+
+---
+
+## Get data from all submissions (stylised output)
+
+&lt;table class="table table-condensed" style="font-size: 14px; font-family: Arial Narrow; margin-left: auto; margin-right: auto;"&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; id &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; start &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; end &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; today &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; pizza1 &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; pizza2 &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; system_submission_date &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; system_submitter_id &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; system_submitter_name &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; uuid:d14d2e96-c5b8-48ac-83cb-e956bf39107d &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2021-01-26 10:45:27 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2021-01-26 10:45:42 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2021-01-26 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; cheese tomatoes pepperoni &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2021-01-26T10:45:41.791Z &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 28 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; presenter &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; uuid:46ec1773-d9b5-4355-8add-744b942f0cc1 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2021-01-26 10:45:03 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2021-01-26 10:45:14 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2021-01-26 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; NA &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2021-01-26T10:45:14.240Z &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 28 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; presenter &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; uuid:1dab3449-6bb9-4c78-bbb5-a729115b72c1 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2021-01-26 10:44:42 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2021-01-26 10:44:59 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2021-01-26 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; cheese &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 2021-01-26T10:44:59.065Z &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 28 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; presenter &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+
+class: center, middle
+
+# Questions?
+
+---
+
+class: center, middle
+
+# Thank you!
+
+Slides can be viewed at https://ecohealthalliance.github.io/opendatakit or PDF version downloaded at https://ecohealthalliance.github.io/opendatakit/opendatakit.pdf
+
+R scripts for slides available at https://github.com/ecohealthalliance/opendatakit
+
+Demo ODK forms available at https://github.com/ecohealthalliance/opendatakit/forms
     </textarea>
 <style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
 <script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
