@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# Slide Deck for the Presentation on Open Data Kit for the Methods and Models Meetings (M3)
+# Slide Deck for the Presentation on Open Data Kit for the Methods and Modelling Meetings (M3)
 
 <!-- badges: start -->
 
@@ -9,7 +9,8 @@
 
 This repository contains the `Rmarkdown` script and related materials
 used to produce the slide deck for the presentation on Open Data Kit for
-the Methods and Models Meetings (M3) on the 26th of January 2021.
+EcoHealth Alliance’s **Methods and Modelling Meetings (M3)** on the 26th
+of January 2021.
 
 ## The slide deck
 
